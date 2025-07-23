@@ -1,4 +1,4 @@
-namespace NovaModa.Models.Enums;
+namespace NovaModaBrecho.Models.Enums;
 
 public enum AcessoriesSize
 {

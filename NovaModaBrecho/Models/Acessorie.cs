@@ -1,6 +1,6 @@
-using NovaModa.Models.Enums;
+using NovaModaBrecho.Models.Enums;
 
-namespace NovaModa.Models;
+namespace NovaModaBrecho.Models;
 
 public class Acessorie : Item
 {
