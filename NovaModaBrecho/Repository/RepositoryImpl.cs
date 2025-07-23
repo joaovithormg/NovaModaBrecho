@@ -1,4 +1,5 @@
 using NovaModaBrecho.Models;
+using NovaModaBrecho.Models.Enums;
 using NovaModaBrecho.Repository.Interfaces;
 
 namespace NovaModaBrecho.Repository;
@@ -29,5 +30,16 @@ public class RepositoryImpl<T> : IRepository<T> where T : Item
     public void Delete(int id)
     {
         _items.RemoveAll(x => x.Id == id);
+    }
+
+    public double SaleValue(T item)
+    {
+        return item.Condition switch
+        {
+            Condition.New => 0.7 * item.OriginalPrice,
+            Condition.Good => 0.6 * item.OriginalPrice,
+            Condition.Fair => 0.5 * item.OriginalPrice,
+            _ => 0.5 * item.OriginalPrice
+        };
     }
 }
