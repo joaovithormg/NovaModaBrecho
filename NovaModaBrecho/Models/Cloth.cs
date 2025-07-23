@@ -9,8 +9,11 @@ public class Cloth : Item
 
     public override void DisplayDetails()
     {
-        Console.WriteLine($"Name: {Name}");
+        DisplayCommonDetails(); 
+        Console.WriteLine($"Tamanho: {ClothesSize}");
+        Console.WriteLine($"Categoria: {ClothesCategory}");
     }
+
 
     public Cloth(int id, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition, ClothesSize clothesSize, ClothesCategory clothesCategory) : base(id, name, description, brand, origin, quantity, color, originalPrice, receiveDate, condition)
     {
