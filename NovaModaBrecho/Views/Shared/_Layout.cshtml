@@ -1,49 +1,50 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - NovaModaBrecho</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/NovaModaBrecho.styles.css" asp-append-version="true"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Nova Moda</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NovaModaBrecho</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<header class="main-header">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/images/logo-nova-moda.png" alt="Nova Moda">
+        </a>
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-area="" asp-controller="Clothes" asp-action="Clothes">Roupas</a></li>
+            <li><a asp-area="" asp-controller="Shoes" asp-action="Shoes">Calçados</a></li>
+            <li><a asp-area="" asp-controller="Acessories" asp-action="Acessories">Acessórios</a></li>
+        </ul>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2025 - NovaModaBrecho - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<main role="main" class="pb-3">
+    @RenderBody()
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="~/images/logo-nova-moda.png" alt="Nova Moda">
+        </div>
+        <p class="copyright">Grupo Snorlax &copy; 2025. Todos os Direitos Reservados.</p>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><img src="~/images/icons/facebook-icon.png" alt="Facebook"></a>
+            <a href="#" class="social-icon"><img src="~/images/icons/instagram-icon.png" alt="Instagram"></a>
+            <a href="#" class="social-icon"><img src="~/images/icons/linkedin-icon.png" alt="LinkedIn"></a>
+        </div>
     </div>
 </footer>
+
+<button class="add-button">+</button>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
