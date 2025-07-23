@@ -13,12 +13,9 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    // GET: /Home
+    // lista tudo
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
     {
         return View();
     }
