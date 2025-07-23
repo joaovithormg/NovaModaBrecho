@@ -1,4 +1,4 @@
-namespace NovaModa.Models;
+namespace NovaModaBrecho.Models;
 
 public class ErrorViewModel
 {
