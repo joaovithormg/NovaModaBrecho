@@ -18,6 +18,20 @@ public abstract class Item
     public Condition Condition { get; set; }
 
     public abstract void DisplayDetails();
+    public void DisplayCommonDetails()
+    {
+        Console.WriteLine($"ID: {Id}");
+        Console.WriteLine($"Nome: {Name}");
+        Console.WriteLine($"Descrição: {Description}");
+        Console.WriteLine($"Marca: {Brand}");
+        Console.WriteLine($"Origem: {Origin}");
+        Console.WriteLine($"Quantidade: {Quantity}");
+        Console.WriteLine($"Cor: {Color}");
+        Console.WriteLine($"Preço original: {OriginalPrice:C}");
+        Console.WriteLine($"Data de recebimento: {ReceiveDate:d}");
+        Console.WriteLine($"Condição: {Condition}");
+    }
+
 
     public virtual double SellingPrice()
     {
