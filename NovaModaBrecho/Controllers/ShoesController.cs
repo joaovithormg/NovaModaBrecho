@@ -3,64 +3,64 @@ using NovaModaBrecho.Models;
 
 namespace NovaModaBrecho.Controllers;
 
-public class ClothesController : Controller
+public class ShoesController : Controller
 {
 
-    // GET: /Clothes
-    // lista todas as roupas
+    // GET: /Shoes
+    // lista todos os sapatos
     public IActionResult Index()
     {
         return View();
     }
     
-    // GET: /Clothes/Details/{id}
-    // mostra detalhes de uma roupa
+    // GET: /Shoes/Details/{id}
+    // mostra detalhes de um sapato
     public IActionResult Details(int id)
     {
         return View();
     }
     
-    // GET: /Clothes/Create
-    // mostra forms para adicionar roupa
+    // GET: /Shoes/Create
+    // mostra forms para adicionar sapato
     public IActionResult Create()
     {
         return View();
     }
     
-    // POST: /Clothes/Create
-    // posta forms com dados da nova roupa
+    // POST: /Shoes/Create
+    // posta forms com dados do novo sapato
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Cloth roupa)
+    public IActionResult Create(Shoe sapato)
     {
         return View();
     }
     
-    // GET: /Clothes/Edit/{id}
-    // mostra forms para editar dados de roupa
+    // GET: /Shoes/Edit/{id}
+    // mostra forms para editar dados de sapato
     public IActionResult Edit(int id)
     {
         return View();
     }
     
     
-    // POST: /Clothes/Edit/5
+    // POST: /Shoes/Edit/5
     // posta forms com edicoes
     [HttpPost]  
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(int id, Cloth roupa)
+    public IActionResult Edit(int id, Shoe sapato)
     {
-        return View(roupa);
+        return View(sapato);
     }
     
-    // GET: /Clothes/Delete/{id}
+    // GET: /Shoes/Delete/{id}
     // mostra forms para deletar
     public IActionResult Delete(int id)
     {
         return View();
     }
 
-    // POST: /Clothes/Delete/5
+    // POST: /Shoes/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
