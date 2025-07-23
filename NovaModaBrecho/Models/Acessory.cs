@@ -11,4 +11,10 @@ public class Acessory : Item
     {
         Console.WriteLine($"Name: {Name}");
     }
+
+    public Acessory(int id, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition, AcessoriesSize accessoriesSize, AcessoriesType accessoriesType) : base(id, name, description, brand, origin, quantity, color, originalPrice, receiveDate, condition)
+    {
+        AccessoriesSize = accessoriesSize;
+        AccessoriesType = accessoriesType;
+    }
 }
