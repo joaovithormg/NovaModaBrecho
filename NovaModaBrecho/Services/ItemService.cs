@@ -5,30 +5,38 @@ namespace NovaModaBrecho.Services;
 
 public class ItemService<T> : IBaseItemService<T> where T : Item
 {
-    public readonly List<T> _items = [];
-    
+    private readonly List<T> _items = [];
+    private int _nextId = 1;
     public List<T> GetAll()
     {
-        throw new NotImplementedException();
+        return _items;
     }
 
     public T? GetById(int id)
     {
-        throw new NotImplementedException();
+        return _items.FirstOrDefault(x => x.Id == id);
     }
 
-    public void Add(T item)
+    public void Add(T? item)
     {
-        throw new NotImplementedException();
+        if (item != null)
+        {
+            item.Id = ++_nextId;
+            _items.Add(item);
+        }
     }
 
     public void Update(T item)
     {
-        throw new NotImplementedException();
+        var index = _items.FindIndex(i => i.Id == item.Id);
+        if (index != -1)
+        {
+            _items[index] = item;
+        }
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        _items.RemoveAll(x => x.Id == id);
     }
 }
