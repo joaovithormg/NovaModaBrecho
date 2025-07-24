@@ -9,6 +9,269 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+
+    <!-- ESTILOS DO MODAL - ADICIONAR AQUI -->
+    <style>
+        /* Estilos do Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Seleção de Tipo */
+        .item-type-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .type-card {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .type-card:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+        }
+
+        .type-card.selected {
+            border-color: #007bff;
+            background: #e3f2fd;
+            color: #0056b3;
+        }
+
+        .type-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .type-name {
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Formulários */
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Indicador de etapas */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            color: #999;
+        }
+
+        .step.active {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .step.active .step-number {
+            background: #007bff;
+            color: white;
+        }
+
+        .step-separator {
+            width: 40px;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 0 15px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        @@media (max-width: 768px) {
+            .modal {
+                width: 95%;
+                margin: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .item-type-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 <header class="main-header">
@@ -20,7 +283,7 @@
     <nav class="main-nav">
         <ul>
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a asp-area="" asp-controller="Clothes" asp-action="Index">Roupas</a></li>  
+            <li><a asp-area="" asp-controller="Clothes" asp-action="Index">Roupas</a></li>
             <li><a asp-area="" asp-controller="Shoes" asp-action="Index">Calçados</a></li>
             <li><a asp-area="" asp-controller="Accessories" asp-action="Index">Acessórios</a></li>
         </ul>
@@ -47,8 +310,563 @@
 
 <button class="add-button">+</button>
 
+<!-- MODAL HTML - ADICIONAR AQUI -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Adicionar Novo Item</h2>
+            <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- Indicador de etapas -->
+            <div class="step-indicator">
+                <div class="step active" id="step1">
+                    <span class="step-number">1</span>
+                    <span>Tipo</span>
+                </div>
+                <div class="step-separator"></div>
+                <div class="step" id="step2">
+                    <span class="step-number">2</span>
+                    <span>Detalhes</span>
+                </div>
+            </div>
+
+            <!-- Seleção de Tipo -->
+            <div id="typeSelection" class="type-selection-container">
+                <h3>Selecione o tipo de item:</h3>
+                <div class="item-type-selection">
+                    <div class="type-card" data-type="cloth">
+                        <span class="type-icon">👕</span>
+                        <p class="type-name">Roupa</p>
+                    </div>
+                    <div class="type-card" data-type="shoe">
+                        <span class="type-icon">👟</span>
+                        <p class="type-name">Calçado</p>
+                    </div>
+                    <div class="type-card" data-type="accessory">
+                        <span class="type-icon">👜</span>
+                        <p class="type-name">Acessório</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário para Roupas -->
+            <div id="clothForm" class="form-container">
+                <h3>Cadastrar Roupa</h3>
+                <form id="clothFormData">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothName">Nome <span class="required">*</span></label>
+                            <input type="text" id="clothName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="clothBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clothDescription">Descrição</label>
+                        <textarea id="clothDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clothUrl">URL da Imagem</label>
+                        <input type="url" id="clothUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="clothOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="clothQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothColor">Cor <span class="required">*</span></label>
+                            <select id="clothColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothCondition">Condição <span class="required">*</span></label>
+                            <select id="clothCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Bom</option>
+                                <option value="Fair">Regular</option>
+                                <option value="Poor">Ruim</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothSize">Tamanho <span class="required">*</span></label>
+                            <select id="clothSize" name="ClothesSize" required>
+                                <option value="">Selecione o tamanho</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothCategory">Categoria <span class="required">*</span></label>
+                            <select id="clothCategory" name="ClothesCategory" required>
+                                <option value="">Selecione a categoria</option>
+                                <option value="Dress">Vestido</option>
+                                <option value="Shirt">Camisa</option>
+                                <option value="Pants">Calça</option>
+                                <option value="Skirt">Saia</option>
+                                <option value="Jacket">Jaqueta</option>
+                                <option value="Coat">Casaco</option>
+                                <option value="Sweater">Suéter</option>
+                                <option value="Shorts">Shorts</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothPrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="clothPrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="clothReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulário para Calçados -->
+            <div id="shoeForm" class="form-container">
+                <h3>Cadastrar Calçado</h3>
+                <form id="shoeFormData">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeName">Nome <span class="required">*</span></label>
+                            <input type="text" id="shoeName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="shoeBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shoeDescription">Descrição</label>
+                        <textarea id="shoeDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shoeUrl">URL da Imagem</label>
+                        <input type="url" id="shoeUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="shoeOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="shoeQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeColor">Cor <span class="required">*</span></label>
+                            <select id="shoeColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeCondition">Condição <span class="required">*</span></label>
+                            <select id="shoeCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Bom</option>
+                                <option value="Fair">Regular</option>
+                                <option value="Poor">Ruim</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeSize">Tamanho <span class="required">*</span></label>
+                            <input type="number" id="shoeSize" name="ShoeSize" min="20" max="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeCategory">Categoria <span class="required">*</span></label>
+                            <select id="shoeCategory" name="ShoesCategory" required>
+                                <option value="">Selecione a categoria</option>
+                                <option value="Sneakers">Tênis</option>
+                                <option value="Boots">Botas</option>
+                                <option value="Sandals">Sandálias</option>
+                                <option value="Heels">Salto Alto</option>
+                                <option value="Flats">Sapatilhas</option>
+                                <option value="Sports">Esportivo</option>
+                                <option value="Casual">Casual</option>
+                                <option value="Formal">Formal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoePrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="shoePrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="shoeReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulário para Acessórios -->
+            <div id="accessoryForm" class="form-container">
+                <h3>Cadastrar Acessório</h3>
+                <form id="accessoryFormData">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryName">Nome <span class="required">*</span></label>
+                            <input type="text" id="accessoryName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="accessoryBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accessoryDescription">Descrição</label>
+                        <textarea id="accessoryDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accessoryUrl">URL da Imagem</label>
+                        <input type="url" id="accessoryUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="accessoryOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="accessoryQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryColor">Cor <span class="required">*</span></label>
+                            <select id="accessoryColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryCondition">Condição <span class="required">*</span></label>
+                            <select id="accessoryCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Bom</option>
+                                <option value="Fair">Regular</option>
+                                <option value="Poor">Ruim</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessorySize">Tamanho <span class="required">*</span></label>
+                            <select id="accessorySize" name="AccessoriesSize" required>
+                                <option value="">Selecione o tamanho</option>
+                                <option value="Small">Pequeno</option>
+                                <option value="Medium">Médio</option>
+                                <option value="Large">Grande</option>
+                                <option value="Adjustable">Ajustável</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryType">Tipo <span class="required">*</span></label>
+                            <select id="accessoryType" name="AccessoriesType" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="Necklace">Colar</option>
+                                <option value="Bracelet">Pulseira</option>
+                                <option value="Ring">Anel</option>
+                                <option value="Earrings">Brincos</option>
+                                <option value="Hat">Chapéu</option>
+                                <option value="Bag">Bolsa</option>
+                                <option value="Scarf">Lenço</option>
+                                <option value="Belt">Cinto</option>
+                                <option value="Sunglasses">Óculos de Sol</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryPrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="accessoryPrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="accessoryReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Ações do Modal -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="backBtn" style="display: none;">Voltar</button>
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="nextBtn" disabled>Continuar</button>
+                <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">Salvar Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+
+<!-- JAVASCRIPT DO MODAL - ADICIONAR AQUI -->
+<script>
+    class ItemCreationModal {
+        constructor() {
+            this.currentStep = 1;
+            this.selectedType = null;
+            this.modal = document.getElementById('modalOverlay');
+            this.init();
+        }
+
+        init() {
+            // Event listeners
+            document.querySelector('.add-button').addEventListener('click', () => this.openModal());
+            document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
+            document.getElementById('cancelBtn').addEventListener('click', () => this.closeModal());
+            document.getElementById('nextBtn').addEventListener('click', () => this.goToStep2());
+            document.getElementById('backBtn').addEventListener('click', () => this.goToStep1());
+            document.getElementById('saveBtn').addEventListener('click', () => this.saveItem());
+
+            // Close modal when clicking outside
+            this.modal.addEventListener('click', (e) => {
+                if (e.target === this.modal) {
+                    this.closeModal();
+                }
+            });
+
+            // Type selection
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.addEventListener('click', () => this.selectType(card.dataset.type));
+            });
+
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.value = today;
+            });
+        }
+
+        openModal() {
+            this.modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            this.resetModal();
+        }
+
+        closeModal() {
+            this.modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            this.resetModal();
+        }
+
+        resetModal() {
+            this.currentStep = 1;
+            this.selectedType = null;
+            this.updateStepIndicator();
+            this.showStep1();
+            this.clearForms();
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        selectType(type) {
+            this.selectedType = type;
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        goToStep1() {
+            this.currentStep = 1;
+            this.updateStepIndicator();
+            this.showStep1();
+        }
+
+        goToStep2() {
+            if (!this.selectedType) return;
+
+            this.currentStep = 2;
+            this.updateStepIndicator();
+            this.showStep2();
+        }
+
+        showStep1() {
+            document.getElementById('typeSelection').style.display = 'block';
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            document.getElementById('backBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('nextBtn').disabled = !this.selectedType;
+        }
+
+        showStep2() {
+            document.getElementById('typeSelection').style.display = 'none';
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            // Show the appropriate form
+            const formId = `${this.selectedType}Form`;
+            document.getElementById(formId).style.display = 'block';
+
+            document.getElementById('backBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        }
+
+        updateStepIndicator() {
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+
+            if (this.currentStep === 1) {
+                step1.classList.add('active');
+                step2.classList.remove('active');
+            } else {
+                step1.classList.remove('active');
+                step2.classList.add('active');
+            }
+        }
+
+        clearForms() {
+            document.querySelectorAll('form').forEach(form => {
+                form.reset();
+                // Set today's date again after reset
+                const today = new Date().toISOString().split('T')[0];
+                form.querySelectorAll('input[type="date"]').forEach(input => {
+                    input.value = today;
+                });
+            });
+        }
+
+        async saveItem() {
+            const formData = this.getFormData();
+            if (!formData) return;
+
+            try {
+                document.getElementById('saveBtn').disabled = true;
+                document.getElementById('saveBtn').textContent = 'Salvando...';
+
+                // Determinar a URL do controller baseado no tipo
+                let url;
+                switch (this.selectedType) {
+                    case 'cloth':
+                        url = '/Clothes/Create';
+                        break;
+                    case 'shoe':
+                        url = '/Shoes/Create';
+                        break;
+                    case 'accessory':
+                        url = '/Accessories/Create';
+                        break;
+                    default:
+                        throw new Error('Tipo de item inválido');
+                }
+
+                // Usar FormData para envio tradicional
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData // Enviar FormData diretamente
+                });
+
+                if (response.ok) {
+                    alert('Item criado com sucesso!');
+                    this.closeModal();
+                    window.location.reload();
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(`Erro ao salvar: ${response.status} - ${errorText}`);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar item:', error);
+                alert('Erro ao salvar o item. Tente novamente.');
+            } finally {
+                document.getElementById('saveBtn').disabled = false;
+                document.getElementById('saveBtn').textContent = 'Salvar Item';
+            }
+        }
+
+        getFormData() {
+            const formId = `${this.selectedType}FormData`;
+            const form = document.getElementById(formId);
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return null;
+            }
+
+            // Retornar FormData diretamente para funcionar com model binding do ASP.NET
+            return new FormData(form);
+        }
+    }
+
+    // Inicializar o modal quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        new ItemCreationModal();
+    });
+</script>
