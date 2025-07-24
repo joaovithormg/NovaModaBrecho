@@ -5,6 +5,8 @@ namespace NovaModaBrecho.Models;
 public abstract class Item
 {
     public int Id { get; set; }
+    
+    public string Url {get; set;}
     public string Name { get; set; }
     public string Description { get; set; }
     public string Brand { get; set; }
@@ -38,9 +40,10 @@ public abstract class Item
         return OriginalPrice;
     }
 
-    protected Item(int id, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition)
+    protected Item(int id, string url, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition)
     {
         Id = id;
+        Url = url;
         Name = name;
         Description = description;
         Brand = brand;

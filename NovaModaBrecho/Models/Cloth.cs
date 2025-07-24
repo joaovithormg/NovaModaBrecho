@@ -15,7 +15,7 @@ public class Cloth : Item
     }
 
 
-    public Cloth(int id, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition, ClothesSize clothesSize, ClothesCategory clothesCategory) : base(id, name, description, brand, origin, quantity, color, originalPrice, receiveDate, condition)
+    public Cloth(int id, string url, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition, ClothesSize clothesSize, ClothesCategory clothesCategory) : base(id, url, name, description, brand, origin, quantity, color, originalPrice, receiveDate, condition)
     {
         ClothesSize = clothesSize;
         ClothesCategory = clothesCategory;
