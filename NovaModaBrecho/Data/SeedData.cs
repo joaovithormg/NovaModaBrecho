@@ -22,7 +22,7 @@ public static class SeedData
             clothesSize: ClothesSize.M,
             clothesCategory: ClothesCategory.Dress
         ),
-        new Acessory(
+        new Accessory(
             id: 2,
             url: "https://juneptune.com/cdn/shop/files/S8453aab16eca41b7822fbd03c921c3cbm.jpg?v=1693019762",
             name: "Bolsa Lacinho",
@@ -37,7 +37,7 @@ public static class SeedData
             accessoriesSize: AcessoriesSize.Medium,
             accessoriesType: AcessoriesType.Bag
         ),
-        new Acessory(
+        new Accessory(
             id: 3,
             url: "https://www.viblok.com/cdn/shop/articles/Coquette_Poster_02_jpg_png.jpg?v=1705604758",
             name: "Pingente Queen",

@@ -1,0 +1,40 @@
+@using NovaModaBrecho.Models
+@using NovaModaBrecho.Models.Enums
+@model List<Cloth>
+
+@{
+    ViewData["Title"] = "Home - Nova Moda";
+}
+
+<section class="products-grid">
+    @foreach (var item in Model)
+    {
+        var salePrice = item.SalePrice();
+        var originalPrice = item.OriginalPrice;
+
+        <div class="product-card">
+            <img src="@item.Url" alt="@item.Name">
+            <div class="product-info">
+                <h3 class="product-name">@item.Name</h3>
+
+                @switch (item.Condition)
+                {
+                    case Condition.Good:
+                        <span class="product-status novo">NOVO</span>
+                        break;
+                    case Condition.Fair:
+                        <span class="product-status semi">SEMI</span>
+                        break;
+                    case Condition.Poor:
+                        <span class="product-status usado">USADO</span>
+                        break;
+                }
+
+                <div class="prices">
+                    <span class="original-price">R$ @originalPrice.ToString("N2")</span>
+                    <span class="sale-price">R$ @salePrice.ToString("N2")</span>
+                </div>
+            </div>
+        </div>
+    }
+</section>

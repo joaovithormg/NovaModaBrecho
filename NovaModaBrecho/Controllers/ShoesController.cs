@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NovaModaBrecho.Data;
 using NovaModaBrecho.Models;
 using NovaModaBrecho.Services.Interfaces; // Add this using directive
 
@@ -18,7 +19,7 @@ public class ShoesController : Controller
     // GET: /Shoes
     public IActionResult Index()
     {
-        var shoes = _shoesService.GetAll();
+        var shoes = SeedData.Items.OfType<Shoe>().ToList();
         return View(shoes);
     }
 

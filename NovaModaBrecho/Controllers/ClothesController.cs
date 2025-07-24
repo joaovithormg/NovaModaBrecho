@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
 using NovaModaBrecho.Services.Interfaces; // Add this using directive
+using NovaModaBrecho.Data;
 
 namespace NovaModaBrecho.Controllers;
 
@@ -19,7 +20,7 @@ public class ClothesController : Controller
     // lista todas as roupas
     public IActionResult Index()
     {
-        var clothes = _clothesService.GetAll();
+        var clothes = SeedData.Items.OfType<Cloth>().ToList();
         return View(clothes);
     }
     

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NovaModaBrecho.Data;
 using NovaModaBrecho.Models;
 using NovaModaBrecho.Services.Interfaces; // Add this using directive
 
@@ -7,10 +8,10 @@ namespace NovaModaBrecho.Controllers;
 public class AccessoriesController : Controller
 {
     // Change the type to the interface
-    private readonly IBaseItemService<Acessory> _accessoryService;
+    private readonly IBaseItemService<Accessory> _accessoryService;
 
     // Change the constructor parameter type to the interface
-    public AccessoriesController(IBaseItemService<Acessory> accessoryService)
+    public AccessoriesController(IBaseItemService<Accessory> accessoryService)
     {
         _accessoryService = accessoryService;
     }
@@ -18,7 +19,7 @@ public class AccessoriesController : Controller
     // GET: /Accessories
     public IActionResult Index()
     {
-        var accessories = _accessoryService.GetAll();
+        var accessories = SeedData.Items.OfType<Accessory>().ToList();
         return View(accessories);
     }
 
@@ -39,7 +40,7 @@ public class AccessoriesController : Controller
     // POST: /Accessories/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Acessory acessorio)
+    public IActionResult Create(Accessory acessorio)
     {
         if (ModelState.IsValid)
         {
@@ -60,7 +61,7 @@ public class AccessoriesController : Controller
     // POST: /Accessories/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(int id, Acessory acessorio)
+    public IActionResult Edit(int id, Accessory acessorio)
     {
         if (id != acessorio.Id) return NotFound();
         if (ModelState.IsValid)
