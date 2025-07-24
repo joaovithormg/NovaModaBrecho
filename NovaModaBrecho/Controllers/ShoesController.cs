@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
-using NovaModaBrecho.Services;
+using NovaModaBrecho.Services.Interfaces; // Add this using directive
 
 namespace NovaModaBrecho.Controllers;
 
 public class ShoesController : Controller
 {
-    private readonly ItemService<Shoe> _shoesService;
+    // Change the type to the interface
+    private readonly IBaseItemService<Shoe> _shoesService;
 
-    public ShoesController(ItemService<Shoe> shoesService)
+    // Change the constructor parameter type to the interface
+    public ShoesController(IBaseItemService<Shoe> shoesService)
     {
         _shoesService = shoesService;
     }
