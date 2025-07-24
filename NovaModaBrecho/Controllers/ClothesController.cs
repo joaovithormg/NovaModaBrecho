@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
 using NovaModaBrecho.Services.Interfaces;
 using NovaModaBrecho.Data;
-using NovaModaBrecho.DTOs; // ADICIONAR ESTA LINHA
+using NovaModaBrecho.DTOs;
 
 namespace NovaModaBrecho.Controllers;
 
@@ -34,14 +34,13 @@ public class ClothesController : Controller
         return View();
     }
     
-    // SUBSTITUIR ESTE MÉTODO CREATE
+   
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(ClothCreateDto dto)
     {
         if (ModelState.IsValid)
         {
-            // Gerar novo ID (você pode ajustar esta lógica conforme sua necessidade)
             var newId = SeedData.Items.Any() ? SeedData.Items.Max(i => i.Id) + 1 : 1;
             
             var cloth = new Cloth(
@@ -62,7 +61,6 @@ public class ClothesController : Controller
             
             _clothesService.Add(cloth);
             
-            // Se foi chamado via AJAX (modal), retornar JSON
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
                 Request.ContentType?.Contains("application/json") == true)
             {
@@ -72,7 +70,6 @@ public class ClothesController : Controller
             return RedirectToAction(nameof(Index));
         }
         
-        // Se há erros de validação e foi AJAX, retornar os erros
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
             Request.ContentType?.Contains("application/json") == true)
         {
@@ -82,7 +79,6 @@ public class ClothesController : Controller
         return View(dto);
     }
     
-    // MANTER OS OUTROS MÉTODOS COMO ESTÃO
     public IActionResult Edit(int id)
     {
         var cloth = _clothesService.GetById(id);
@@ -115,7 +111,7 @@ public class ClothesController : Controller
     {
         var cloth = _clothesService.GetById(id);
         if (cloth == null) return NotFound();
-        return View(cloth); // CORRIGIDO: estava retornando View() sem parâmetro
+        return View(cloth); 
     }
 
     [HttpPost, ActionName("Delete")]

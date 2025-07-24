@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Data;
 using NovaModaBrecho.Models;
 using NovaModaBrecho.Services.Interfaces;
-using NovaModaBrecho.DTOs; // ADICIONAR ESTA LINHA
+using NovaModaBrecho.DTOs; 
 
 namespace NovaModaBrecho.Controllers;
 
@@ -33,7 +33,6 @@ public class ShoesController : Controller
         return View();
     }
 
-    // SUBSTITUIR ESTE MÉTODO CREATE
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(ShoeCreateDto dto)
@@ -78,7 +77,6 @@ public class ShoesController : Controller
         return View(dto);
     }
 
-    // MANTER OS OUTROS MÉTODOS COMO ESTÃO
     public IActionResult Edit(int id)
     {
         var shoe = _shoesService.GetById(id);
