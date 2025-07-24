@@ -24,6 +24,7 @@ main {
   background-color: #FFEBEE; /* Rosa mais claro para o cabeçalho */
   padding: 15px 0;
   text-align: center;
+  
   border-bottom: 1px solid #F8BBD0; /* Borda inferior sutil */
 }
 
@@ -44,15 +45,15 @@ main {
 
 .main-nav ul li a {
   text-decoration: none;
-  color: #4A148C; /* Roxo escuro para o texto */
-  font-weight: 600; /* Mais ousado */
-  font-size: 1.1em;
+  font-family: 'Cherry Bomb One', serif;
+  color: #ef6d9f;
+  font-size: 1.5em;
   padding: 5px 10px;
   transition: color 0.3s ease;
 }
 
 .main-nav ul li a:hover {
-  color: #880E4F; /* Cor mais escura ao passar o mouse */
+  color: #C2185B; /* Um pouco mais escuro no hover */
 }
 
 /* --- Grid de Produtos --- */
@@ -131,9 +132,8 @@ main {
 }
 
 .original-price {
-  text-decoration: line-through;
   color: #888;
-  font-size: 0.95em;
+  font-size: 0.85em;
 }
 
 .sale-price {
@@ -152,6 +152,8 @@ main {
 }
 
 .footer-content {
+  font-family: 'Cherry Bomb One', serif;
+  color: #ef6d9f;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
@@ -166,7 +168,7 @@ main {
 
 .copyright {
   font-size: 0.9em;
-  color: #555;
+  color: #ef6d9f;
 }
 
 .social-icons a {
@@ -189,7 +191,7 @@ main {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #E91E63; /* Rosa mais escuro para o botão */
+  background-color: #ef6d9f;
   color: white;
   border: none;
   border-radius: 50%;
@@ -222,6 +224,7 @@ main {
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 2 colunas em tablets */
     gap: 15px;
+    width: fit-content;
   }
 
   .main-nav ul {
