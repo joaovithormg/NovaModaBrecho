@@ -10,5 +10,4 @@ public interface IRepository<T> where T : Item
     void Update(T item);
     void Delete(int id);
 
-    double SaleValue(T item);
 }

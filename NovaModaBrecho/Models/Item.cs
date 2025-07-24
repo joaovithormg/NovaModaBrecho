@@ -35,10 +35,17 @@ public abstract class Item
     }
 
 
-    public virtual double SellingPrice()
+    public virtual double SalePrice()
     {
-        return OriginalPrice;
+        return Condition switch
+        {
+            Condition.Good => OriginalPrice * 0.7,
+            Condition.Fair => OriginalPrice * 0.6,
+            Condition.Poor => OriginalPrice * 0.5,
+            _ => OriginalPrice * 0.5
+        };
     }
+
 
     protected Item(int id, string url, string name, string description, string brand, string origin, int quantity, Color color, double originalPrice, DateTime receiveDate, Condition condition)
     {
