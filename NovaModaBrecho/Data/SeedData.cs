@@ -62,7 +62,7 @@ public static class SeedData
             quantity: 2,
             color: Color.Pink,
             originalPrice: 240.00,
-            receiveDate: DateTime.Now.AddDays(-1),
+            receiveDate: DateTime.Now.AddYears(-1).AddDays(-20),
             condition: Condition.Good,
             shoeSize: 36,
             shoesCategory: ShoesCategory.Flats
