@@ -20,6 +20,4 @@ public class ItemService<T>(IRepository<T> repository) : IBaseItemService<T>
     public void Update(T item) => repository.Update(item);
 
     public void Delete(int id) => repository.Delete(id);
-    public double SaleValue(T item) => repository.SaleValue(item);
-
 }

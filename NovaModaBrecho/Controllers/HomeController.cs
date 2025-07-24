@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using NovaModaBrecho.Data;
 using NovaModaBrecho.Models;
 
 namespace NovaModaBrecho.Controllers;
@@ -17,7 +18,8 @@ public class HomeController : Controller
     // lista tudo
     public IActionResult Index()
     {
-        return View();
+        var allItems = SeedData.Items;
+        return View(allItems);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

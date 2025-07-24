@@ -1,7 +1,16 @@
+using NovaModaBrecho.Models;
+using NovaModaBrecho.Repository;
+using NovaModaBrecho.Repository.Interfaces;
+using NovaModaBrecho.Services;
+using NovaModaBrecho.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddSingleton<IRepository<Item>, RepositoryImpl<Item>>();
+builder.Services.AddSingleton<IBaseItemService<Item>, ItemService<Item>>();
 
 var app = builder.Build();
 
