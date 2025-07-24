@@ -1,23 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
+using NovaModaBrecho.Services.Interfaces; // Add this using directive
 
 namespace NovaModaBrecho.Controllers;
 
 public class ClothesController : Controller
 {
+    // Change the type to the interface
+    private readonly IBaseItemService<Cloth> _clothesService;
 
+    // Change the constructor parameter type to the interface
+    public ClothesController(IBaseItemService<Cloth> clothesService)
+    {
+        _clothesService = clothesService;
+    }
+    
     // GET: /Clothes
     // lista todas as roupas
     public IActionResult Index()
     {
-        return View();
+        var clothes = _clothesService.GetAll();
+        return View(clothes);
     }
     
     // GET: /Clothes/Details/{id}
     // mostra detalhes de uma roupa
     public IActionResult Details(int id)
     {
-        return View();
+        var cloth = _clothesService.GetById(id);
+        if (cloth == null) return NotFound();
+        
+        return View(cloth);
     }
     
     // GET: /Clothes/Create
@@ -33,14 +46,21 @@ public class ClothesController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(Cloth roupa)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            _clothesService.Add(roupa);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(roupa);
     }
     
     // GET: /Clothes/Edit/{id}
     // mostra forms para editar dados de roupa
     public IActionResult Edit(int id)
     {
-        return View();
+        var cloth = _clothesService.GetById(id);
+        if (cloth == null) return NotFound();
+        return View(cloth);
     }
     
     
@@ -50,6 +70,20 @@ public class ClothesController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Cloth roupa)
     {
+        if (id != roupa.Id) return NotFound();
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _clothesService.Update(roupa);
+            }
+            catch (Exception)
+            {
+                if(_clothesService.GetById(id) == null) return NotFound();
+                throw;
+            }
+            return RedirectToAction(nameof(Index));
+        }
         return View(roupa);
     }
     
@@ -57,6 +91,8 @@ public class ClothesController : Controller
     // mostra forms para deletar
     public IActionResult Delete(int id)
     {
+        var cloth = _clothesService.GetById(id);
+        if (cloth == null) return NotFound();
         return View();
     }
 
@@ -65,7 +101,7 @@ public class ClothesController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-        return View();
+        _clothesService.Delete(id);
+        return RedirectToAction(nameof(Index));
     }
-    
 }

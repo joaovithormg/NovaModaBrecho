@@ -1,63 +1,90 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
+using NovaModaBrecho.Services.Interfaces; // Add this using directive
 
 namespace NovaModaBrecho.Controllers;
 
 public class ShoesController : Controller
 {
+    // Change the type to the interface
+    private readonly IBaseItemService<Shoe> _shoesService;
+
+    // Change the constructor parameter type to the interface
+    public ShoesController(IBaseItemService<Shoe> shoesService)
+    {
+        _shoesService = shoesService;
+    }
 
     // GET: /Shoes
-    // lista todos os sapatos
     public IActionResult Index()
     {
-        return View();
+        var shoes = _shoesService.GetAll();
+        return View(shoes);
     }
-    
+
     // GET: /Shoes/Details/{id}
-    // mostra detalhes de um sapato
     public IActionResult Details(int id)
     {
-        return View();
+        var shoe = _shoesService.GetById(id);
+        if (shoe == null) return NotFound();
+        return View(shoe);
     }
-    
+
     // GET: /Shoes/Create
-    // mostra forms para adicionar sapato
     public IActionResult Create()
     {
         return View();
     }
-    
+
     // POST: /Shoes/Create
-    // posta forms com dados do novo sapato
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Shoe sapato)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            _shoesService.Add(sapato);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(sapato);
     }
-    
+
     // GET: /Shoes/Edit/{id}
-    // mostra forms para editar dados de sapato
     public IActionResult Edit(int id)
     {
-        return View();
+        var shoe = _shoesService.GetById(id);
+        if (shoe == null) return NotFound();
+        return View(shoe);
     }
-    
-    
+
     // POST: /Shoes/Edit/5
-    // posta forms com edicoes
-    [HttpPost]  
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Shoe sapato)
     {
+        if (id != sapato.Id) return NotFound();
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _shoesService.Update(sapato);
+            }
+            catch (Exception)
+            {
+                if (_shoesService.GetById(id) == null) return NotFound();
+                throw;
+            }
+            return RedirectToAction(nameof(Index));
+        }
         return View(sapato);
     }
-    
+
     // GET: /Shoes/Delete/{id}
-    // mostra forms para deletar
     public IActionResult Delete(int id)
     {
-        return View();
+        var shoe = _shoesService.GetById(id);
+        if (shoe == null) return NotFound();
+        return View(shoe);
     }
 
     // POST: /Shoes/Delete/5
@@ -65,7 +92,7 @@ public class ShoesController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-        return View();
+        _shoesService.Delete(id);
+        return RedirectToAction(nameof(Index));
     }
-    
 }
