@@ -1,29 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Data;
 using NovaModaBrecho.Models;
-using NovaModaBrecho.Services.Interfaces; // Add this using directive
+using NovaModaBrecho.Services.Interfaces;
+using NovaModaBrecho.DTOs; // ADICIONAR ESTA LINHA
 
 namespace NovaModaBrecho.Controllers;
 
 public class ShoesController : Controller
 {
-    // Change the type to the interface
     private readonly IBaseItemService<Shoe> _shoesService;
 
-    // Change the constructor parameter type to the interface
     public ShoesController(IBaseItemService<Shoe> shoesService)
     {
         _shoesService = shoesService;
     }
 
-    // GET: /Shoes
     public IActionResult Index()
     {
         var shoes = SeedData.Items.OfType<Shoe>().ToList();
         return View(shoes);
     }
 
-    // GET: /Shoes/Details/{id}
     public IActionResult Details(int id)
     {
         var shoe = _shoesService.GetById(id);
@@ -31,26 +28,57 @@ public class ShoesController : Controller
         return View(shoe);
     }
 
-    // GET: /Shoes/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: /Shoes/Create
+    // SUBSTITUIR ESTE MÉTODO CREATE
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Shoe sapato)
+    public IActionResult Create(ShoeCreateDto dto)
     {
         if (ModelState.IsValid)
         {
-            _shoesService.Add(sapato);
+            var newId = SeedData.Items.Any() ? SeedData.Items.Max(i => i.Id) + 1 : 1;
+            
+            var shoe = new Shoe(
+                newId,
+                dto.Url ?? string.Empty,
+                dto.Name,
+                dto.Description ?? string.Empty,
+                dto.Brand,
+                dto.Origin,
+                dto.Quantity,
+                dto.Color,
+                dto.OriginalPrice,
+                dto.ReceiveDate,
+                dto.Condition,
+                dto.ShoeSize,
+                dto.ShoesCategory
+            );
+            
+            _shoesService.Add(shoe);
+            
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+                Request.ContentType?.Contains("application/json") == true)
+            {
+                return Json(new { success = true, message = "Calçado criado com sucesso!" });
+            }
+            
             return RedirectToAction(nameof(Index));
         }
-        return View(sapato);
+        
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+            Request.ContentType?.Contains("application/json") == true)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        return View(dto);
     }
 
-    // GET: /Shoes/Edit/{id}
+    // MANTER OS OUTROS MÉTODOS COMO ESTÃO
     public IActionResult Edit(int id)
     {
         var shoe = _shoesService.GetById(id);
@@ -58,7 +86,6 @@ public class ShoesController : Controller
         return View(shoe);
     }
 
-    // POST: /Shoes/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Shoe sapato)
@@ -80,7 +107,6 @@ public class ShoesController : Controller
         return View(sapato);
     }
 
-    // GET: /Shoes/Delete/{id}
     public IActionResult Delete(int id)
     {
         var shoe = _shoesService.GetById(id);
@@ -88,7 +114,6 @@ public class ShoesController : Controller
         return View(shoe);
     }
 
-    // POST: /Shoes/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)

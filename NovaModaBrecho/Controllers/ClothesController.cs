@@ -1,31 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using NovaModaBrecho.Models;
-using NovaModaBrecho.Services.Interfaces; // Add this using directive
+using NovaModaBrecho.Services.Interfaces;
 using NovaModaBrecho.Data;
+using NovaModaBrecho.DTOs; // ADICIONAR ESTA LINHA
 
 namespace NovaModaBrecho.Controllers;
 
 public class ClothesController : Controller
 {
-    // Change the type to the interface
     private readonly IBaseItemService<Cloth> _clothesService;
 
-    // Change the constructor parameter type to the interface
     public ClothesController(IBaseItemService<Cloth> clothesService)
     {
         _clothesService = clothesService;
     }
     
-    // GET: /Clothes
-    // lista todas as roupas
     public IActionResult Index()
     {
         var clothes = SeedData.Items.OfType<Cloth>().ToList();
         return View(clothes);
     }
     
-    // GET: /Clothes/Details/{id}
-    // mostra detalhes de uma roupa
     public IActionResult Details(int id)
     {
         var cloth = _clothesService.GetById(id);
@@ -34,29 +29,60 @@ public class ClothesController : Controller
         return View(cloth);
     }
     
-    // GET: /Clothes/Create
-    // mostra forms para adicionar roupa
     public IActionResult Create()
     {
         return View();
     }
     
-    // POST: /Clothes/Create
-    // posta forms com dados da nova roupa
+    // SUBSTITUIR ESTE MÉTODO CREATE
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Cloth roupa)
+    public IActionResult Create(ClothCreateDto dto)
     {
         if (ModelState.IsValid)
         {
-            _clothesService.Add(roupa);
+            // Gerar novo ID (você pode ajustar esta lógica conforme sua necessidade)
+            var newId = SeedData.Items.Any() ? SeedData.Items.Max(i => i.Id) + 1 : 1;
+            
+            var cloth = new Cloth(
+                newId,
+                dto.Url ?? string.Empty,
+                dto.Name,
+                dto.Description ?? string.Empty,
+                dto.Brand,
+                dto.Origin,
+                dto.Quantity,
+                dto.Color,
+                dto.OriginalPrice,
+                dto.ReceiveDate,
+                dto.Condition,
+                dto.ClothesSize,
+                dto.ClothesCategory
+            );
+            
+            _clothesService.Add(cloth);
+            
+            // Se foi chamado via AJAX (modal), retornar JSON
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+                Request.ContentType?.Contains("application/json") == true)
+            {
+                return Json(new { success = true, message = "Roupa criada com sucesso!" });
+            }
+            
             return RedirectToAction(nameof(Index));
         }
-        return View(roupa);
+        
+        // Se há erros de validação e foi AJAX, retornar os erros
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+            Request.ContentType?.Contains("application/json") == true)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        return View(dto);
     }
     
-    // GET: /Clothes/Edit/{id}
-    // mostra forms para editar dados de roupa
+    // MANTER OS OUTROS MÉTODOS COMO ESTÃO
     public IActionResult Edit(int id)
     {
         var cloth = _clothesService.GetById(id);
@@ -64,9 +90,6 @@ public class ClothesController : Controller
         return View(cloth);
     }
     
-    
-    // POST: /Clothes/Edit/5
-    // posta forms com edicoes
     [HttpPost]  
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Cloth roupa)
@@ -88,16 +111,13 @@ public class ClothesController : Controller
         return View(roupa);
     }
     
-    // GET: /Clothes/Delete/{id}
-    // mostra forms para deletar
     public IActionResult Delete(int id)
     {
         var cloth = _clothesService.GetById(id);
         if (cloth == null) return NotFound();
-        return View();
+        return View(cloth); // CORRIGIDO: estava retornando View() sem parâmetro
     }
 
-    // POST: /Clothes/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)

@@ -353,7 +353,8 @@
             <!-- Formulário para Roupas -->
             <div id="clothForm" class="form-container">
                 <h3>Cadastrar Roupa</h3>
-                <form id="clothFormData">
+                <form id="clothFormData">  
+                    @Html.AntiForgeryToken()
                     <div class="form-row">
                         <div class="form-group">
                             <label for="clothName">Nome <span class="required">*</span></label>
@@ -458,6 +459,7 @@
             <div id="shoeForm" class="form-container">
                 <h3>Cadastrar Calçado</h3>
                 <form id="shoeFormData">
+                    @Html.AntiForgeryToken()
                     <div class="form-row">
                         <div class="form-group">
                             <label for="shoeName">Nome <span class="required">*</span></label>
@@ -555,6 +557,7 @@
             <div id="accessoryForm" class="form-container">
                 <h3>Cadastrar Acessório</h3>
                 <form id="accessoryFormData">
+                    @Html.AntiForgeryToken()
                     <div class="form-row">
                         <div class="form-group">
                             <label for="accessoryName">Nome <span class="required">*</span></label>
@@ -665,6 +668,7 @@
         </div>
     </div>
 </div>
+</body>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
@@ -812,7 +816,6 @@
                 document.getElementById('saveBtn').disabled = true;
                 document.getElementById('saveBtn').textContent = 'Salvando...';
 
-                // Determinar a URL do controller baseado no tipo
                 let url;
                 switch (this.selectedType) {
                     case 'cloth':
@@ -828,16 +831,16 @@
                         throw new Error('Tipo de item inválido');
                 }
 
-                // Usar FormData para envio tradicional
                 const response = await fetch(url, {
                     method: 'POST',
-                    body: formData // Enviar FormData diretamente
+                    body: formData
                 });
 
                 if (response.ok) {
                     alert('Item criado com sucesso!');
                     this.closeModal();
-                    window.location.reload();
+                    // ALTERE ESTA LINHA:
+                    window.location.href = '/'; // Redireciona para a home (raiz)
                 } else {
                     const errorText = await response.text();
                     throw new Error(`Erro ao salvar: ${response.status} - ${errorText}`);
