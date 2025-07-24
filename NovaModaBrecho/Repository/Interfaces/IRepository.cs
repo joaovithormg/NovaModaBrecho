@@ -9,4 +9,6 @@ public interface IRepository<T> where T : Item
     void Add(T item);
     void Update(T item);
     void Delete(int id);
+
+    double SaleValue(T item);
 }
