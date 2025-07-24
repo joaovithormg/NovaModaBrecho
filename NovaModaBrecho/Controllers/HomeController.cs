@@ -18,7 +18,7 @@ public class HomeController : Controller
     // lista tudo
     public IActionResult Index()
     {
-        var allItems = SeedData.Items;
+        var allItems = SeedData.Items.OrderByDescending(i => i.ReceiveDate).ToList();
         return View(allItems);
     }
 

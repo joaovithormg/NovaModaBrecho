@@ -17,7 +17,7 @@ public class ClothesController : Controller
     
     public IActionResult Index()
     {
-        var clothes = SeedData.Items.OfType<Cloth>().ToList();
+        var clothes = SeedData.Items.OfType<Cloth>().OrderByDescending(i => i.ReceiveDate).ToList();
         return View(clothes);
     }
     

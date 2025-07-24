@@ -17,7 +17,7 @@ public class AccessoriesController : Controller
 
     public IActionResult Index()
     {
-        var accessories = SeedData.Items.OfType<Accessory>().ToList();
+        var accessories = SeedData.Items.OfType<Accessory>().OrderByDescending(i => i.ReceiveDate).ToList();
         return View(accessories);
     }
 
