@@ -1,15 +1,16 @@
-/* Importação de fontes (exemplo com Poppins do Google Fonts) */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Fundo com padrão de lacinhos e sapatinhos */
-  background-image: url('../images/background-lacos.png'), url('../images/background-sapatos.png'); /* Crie essas imagens */
+  background-color: #fce4ec;
+
+  background-image: url('/images/pattern.png');
   background-repeat: repeat;
-  background-position: top left, bottom right;
-  background-color: #fce4ec; /* Rosa claro de fundo */
-  min-height: 100vh; /* Garante que o body ocupa a altura total da viewport */
+  background-position: top left;
+  background-size: 50px 50px;
+
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
