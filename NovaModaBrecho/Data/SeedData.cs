@@ -18,7 +18,7 @@ public static class SeedData
             color: Color.Red,
             originalPrice: 140.00,
             receiveDate: DateTime.Now.AddDays(-2),
-            condition: Condition.Good,
+            condition: Condition.New,
             clothesSize: ClothesSize.M,
             clothesCategory: ClothesCategory.Dress
         ),
@@ -33,7 +33,7 @@ public static class SeedData
             color: Color.Pink,
             originalPrice: 370.00,
             receiveDate: DateTime.Now.AddDays(-4),
-            condition: Condition.Poor,
+            condition: Condition.Fair,
             accessoriesSize: AcessoriesSize.Medium,
             accessoriesType: AcessoriesType.Bag
         ),

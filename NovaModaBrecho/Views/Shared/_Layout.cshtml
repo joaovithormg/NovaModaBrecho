@@ -407,9 +407,8 @@
                             <select id="clothCondition" name="Condition" required>
                                 <option value="">Selecione a condição</option>
                                 <option value="New">Novo</option>
-                                <option value="Good">Bom</option>
-                                <option value="Fair">Regular</option>
-                                <option value="Poor">Ruim</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
                             </select>
                         </div>
                     </div>
@@ -512,9 +511,8 @@
                             <select id="shoeCondition" name="Condition" required>
                                 <option value="">Selecione a condição</option>
                                 <option value="New">Novo</option>
-                                <option value="Good">Bom</option>
-                                <option value="Fair">Regular</option>
-                                <option value="Poor">Ruim</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
                             </select>
                         </div>
                     </div>
@@ -610,9 +608,8 @@
                             <select id="accessoryCondition" name="Condition" required>
                                 <option value="">Selecione a condição</option>
                                 <option value="New">Novo</option>
-                                <option value="Good">Bom</option>
-                                <option value="Fair">Regular</option>
-                                <option value="Poor">Ruim</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
                             </select>
                         </div>
                     </div>
@@ -839,7 +836,6 @@
                 if (response.ok) {
                     alert('Item criado com sucesso!');
                     this.closeModal();
-                    // ALTERE ESTA LINHA:
                     window.location.href = '/'; // Redireciona para a home (raiz)
                 } else {
                     const errorText = await response.text();

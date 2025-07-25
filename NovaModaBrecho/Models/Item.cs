@@ -38,9 +38,9 @@ public abstract class Item
     {
         return Condition switch
         {
-            Condition.Good => OriginalPrice * 0.7,
-            Condition.Fair => OriginalPrice * 0.6,
-            Condition.Poor => OriginalPrice * 0.5,
+            Condition.New => OriginalPrice * 0.7,
+            Condition.Good => OriginalPrice * 0.6,
+            Condition.Fair => OriginalPrice * 0.5,
             _ => OriginalPrice * 0.5
         };
     }

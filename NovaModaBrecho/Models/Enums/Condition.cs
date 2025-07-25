@@ -4,6 +4,5 @@ public enum Condition
 {
     New,
     Good,
-    Fair,
-    Poor
+    Fair
 }

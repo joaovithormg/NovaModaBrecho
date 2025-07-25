@@ -1,7 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     const buttons = {
         open: document.querySelector('.add-button'),
-        create: document.querySelector('.createItem-button'),
+        create: document.querySelector('#saveBtn'),
         delete: document.querySelector('.deleteItem-button')
     };
 
