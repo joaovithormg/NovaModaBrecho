@@ -27,4 +27,28 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
+    public IActionResult Details(int id)
+    {
+        var item = SeedData.Items.FirstOrDefault(i => i.Id == id);
+        if (item == null) return NotFound();
+
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            switch (item)
+            {
+                case Shoe shoe:
+                    return PartialView("~/Views/Shoes/_DetailsPartial.cshtml", shoe);
+                case Cloth cloth:
+                    return PartialView("~/Views/Clothes/_DetailsPartial.cshtml", cloth);
+                case Accessory accessory:
+                    return PartialView("~/Views/Accessories/_DetailsPartial.cshtml", accessory);
+                default:
+                    return BadRequest();
+            }
+        }
+
+        return View(item); // fallback se for normal
+    }
+
 }
