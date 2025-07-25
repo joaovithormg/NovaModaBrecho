@@ -454,7 +454,6 @@
                 </form>
             </div>
 
-            <!-- Formulário para Calçados -->
             <div id="shoeForm" class="form-container">
                 <h3>Cadastrar Calçado</h3>
                 <form id="shoeFormData">
@@ -551,7 +550,6 @@
                 </form>
             </div>
 
-            <!-- Formulário para Acessórios -->
             <div id="accessoryForm" class="form-container">
                 <h3>Cadastrar Acessório</h3>
                 <form id="accessoryFormData">
@@ -655,7 +653,6 @@
                 </form>
             </div>
 
-            <!-- Ações do Modal -->
             <div class="form-actions">
                 <button type="button" class="btn btn-secondary" id="backBtn" style="display: none;">Voltar</button>
                 <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
@@ -665,12 +662,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal-overlay" id="detailsModalOverlay">
+    <div class="modal" id="detailsModal">
+        <div class="modal-header">
+            <h2 class="modal-title">Detalhes do Produto</h2>
+            <button class="close-btn" id="closeDetailsModal">&times;</button>
+        </div>
+        <div class="modal-body" id="detailsModalBody">
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
-<!-- JAVASCRIPT DO MODAL - ADICIONAR AQUI -->
 <script>
     class ItemCreationModal {
         constructor() {
@@ -681,7 +689,6 @@
         }
 
         init() {
-            // Event listeners
             document.querySelector('.add-button').addEventListener('click', () => this.openModal());
             document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
             document.getElementById('cancelBtn').addEventListener('click', () => this.closeModal());
@@ -689,19 +696,16 @@
             document.getElementById('backBtn').addEventListener('click', () => this.goToStep1());
             document.getElementById('saveBtn').addEventListener('click', () => this.saveItem());
 
-            // Close modal when clicking outside
             this.modal.addEventListener('click', (e) => {
                 if (e.target === this.modal) {
                     this.closeModal();
                 }
             });
 
-            // Type selection
             document.querySelectorAll('.type-card').forEach(card => {
                 card.addEventListener('click', () => this.selectType(card.dataset.type));
             });
 
-            // Set today's date as default
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 input.value = today;
@@ -797,7 +801,6 @@
         clearForms() {
             document.querySelectorAll('form').forEach(form => {
                 form.reset();
-                // Set today's date again after reset
                 const today = new Date().toISOString().split('T')[0];
                 form.querySelectorAll('input[type="date"]').forEach(input => {
                     input.value = today;
@@ -859,13 +862,45 @@
                 return null;
             }
 
-            // Retornar FormData diretamente para funcionar com model binding do ASP.NET
             return new FormData(form);
         }
     }
 
-    // Inicializar o modal quando a página carregar
     document.addEventListener('DOMContentLoaded', function() {
         new ItemCreationModal();
+    });
+</script>
+
+<script>
+    function openModal(id) {
+        fetch(`/Home/Details/${id}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro ao carregar detalhes');
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('detailsModalBody').innerHTML = html;
+            document.getElementById('detailsModalOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Erro ao carregar detalhes do item.");
+        });
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('detailsModalOverlay').style.display = 'none';
+        document.getElementById('detailsModalBody').innerHTML = '';
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('closeDetailsModal').addEventListener('click', closeDetailsModal);
+        document.getElementById('detailsModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeDetailsModal();
+        });
     });
 </script>
