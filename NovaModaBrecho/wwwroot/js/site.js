@@ -44,3 +44,11 @@
         console.warn('Botão ".deleteItem-button" não encontrado.');
     }
 });
+
+document.addEventListener('submit', function (e) {
+    if (e.target.classList.contains('delete-form')) {
+        if (!confirm('Tem certeza que deseja deletar este item?')) {
+            e.preventDefault(); 
+        }
+    }
+});

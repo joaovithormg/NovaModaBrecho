@@ -16,3 +16,11 @@
     <p><strong>Preço original:</strong> R$ @Model.OriginalPrice.ToString("F2")</p>
     <p><strong>Preço com desconto:</strong> R$ @Model.CalculateDiscountedSalePrice().ToString("F2")</p>
 </div>
+
+<form asp-action="Delete" asp-controller="Clothes" asp-route-id="@Model.Id" method="post" class="delete-form">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="deleteItem-button" title="Deletar item">
+        <img src="https://img.icons8.com/ios-glyphs/30/fa314a/trash.png" alt="Deletar" />
+    </button>
+</form>
+

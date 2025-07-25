@@ -9,10 +9,10 @@
 <section class="products-grid">
     @foreach (var item in Model)
     {
-        var salePrice = item.SalePrice();
+        var salePrice = item.CalculateDiscountedSalePrice();
         var originalPrice = item.OriginalPrice;
 
-        <div class="product-card">
+        <div class="product-card" onclick="openModal(@item.Id)">
             <img src="@item.Url" alt="@item.Name">
             <div class="product-info">
                 <h3 class="product-name">@item.Name</h3>
