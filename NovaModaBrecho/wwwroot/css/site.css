@@ -85,8 +85,10 @@ main {
 }
 
 .product-card img {
+  aspect-ratio: 1 / 1;
   max-width: 100%;
-  height: 200px; /* Altura fixa para as imagens */
+  height: auto; /* Altura fixa para as imagens */
+  max-height: 300px;
   object-fit: cover; /* Garante que a imagem preenche o espaço sem distorcer */
   border-radius: 8px;
   margin-bottom: 10px;
@@ -247,7 +249,9 @@ main {
   }
 
   .product-card img {
+    aspect-ratio: 3 / 4;
     height: 150px; /* Ajusta a altura da imagem em telas menores */
+    width: 150px;
   }
 
   .product-name {
