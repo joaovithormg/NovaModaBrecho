@@ -48,7 +48,7 @@ public static class SeedData
             color: Color.Yellow,
             originalPrice: 50.00,
             receiveDate: DateTime.Now.AddDays(-10),
-            condition: Condition.Fair,
+            condition: Condition.New,
             accessoriesSize: AcessoriesSize.Small,
             accessoriesType: AcessoriesType.Necklace
         ),
