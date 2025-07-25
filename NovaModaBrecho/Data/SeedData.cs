@@ -66,6 +66,67 @@ public static class SeedData
             condition: Condition.Good,
             shoeSize: 36,
             shoesCategory: ShoesCategory.Flats
-        )
+        ),
+        
+                   new Cloth(
+        id: 5,
+        url: "https://shopxtabay.com/cdn/shop/files/05-01-2024-25_467x700.jpg?v=1714602361",
+        name: "Vestido Cupcake",
+        description: "Vestido com estética docinha.",
+        brand: "Zara",
+        origin: "Xangai",
+        quantity: 2,
+        color: Color.White,
+        originalPrice: 180.00,
+        receiveDate: DateTime.Now.AddDays(-3),
+        condition: Condition.New,
+        clothesSize: ClothesSize.S,
+        clothesCategory: ClothesCategory.Jacket
+    ),
+    new Shoe(
+        id: 6,
+        url: "https://photos.enjoei.com.br/sapato-maryjane-vinho-doll-coquette-plataforma-salto-baixo-soft-99710951/800x800/czM6Ly9waG90b3MuZW5qb2VpLmNvbS5ici9wcm9kdWN0cy8xNTEwOTAyMC81NmQxNDc5ZGE4NGE0NTQ5ZTAyYzVmYzY1ODcyMDNkMy5qcGc",
+        name: "Plataforma Baixo Soft",
+        description: "Salto plataforma inspirado na estética 'Star Idol'. Fashion, fierce e imbatível.",
+        brand: "MaryJane",
+        origin: "Seul",
+        quantity: 1,
+        color: Color.Red,
+        originalPrice: 420.00,
+        receiveDate: DateTime.Now.AddDays(-7),
+        condition: Condition.Fair,
+        shoeSize: 38,
+        shoesCategory: ShoesCategory.Heels
+    ),
+    new Accessory(
+        id: 7,
+        url: "https://m.media-amazon.com/images/I/514hOrD6jXL._UY1000_.jpg",
+        name: "Bolsinha Sweet Honey",
+        description: "Bolsinha para usar como moedeira. Tão fofa que tenho vergonha de pegar as moedas!!",
+        brand: "Kawaii Sugar",
+        origin: "Tokyo",
+        quantity: 6,
+        color: Color.White,
+        originalPrice: 35.00,
+        receiveDate: DateTime.Now.AddDays(-5),
+        condition: Condition.Fair,
+        accessoriesSize: AcessoriesSize.Small,
+        accessoriesType: AcessoriesType.Bag
+    ),
+    new Cloth(
+        id: 8,
+        url: "https://storage.ko-fi.com/cdn/useruploads/display/f2c25d2a-083b-4ffa-9875-b32dfb677e21_img_1972.jpg",
+        name: "Saia Nana",
+        description: "Saia plissada em renda bege, com babados e laço de cetim.",
+        brand: "Desconhecida",
+        origin: "Caribe",
+        quantity: 3,
+        color: Color.Other,
+        originalPrice: 210.00,
+        receiveDate: DateTime.Now.AddDays(-8),
+        condition: Condition.Fair,
+        clothesSize: ClothesSize.XS,
+        clothesCategory: ClothesCategory.Skirt
+    )
     };
 }
