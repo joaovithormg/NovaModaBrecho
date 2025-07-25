@@ -1,50 +1,989 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - NovaModaBrecho</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/NovaModaBrecho.styles.css" asp-append-version="true"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Nova Moda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+
+    <!-- ESTILOS DO MODAL - ADICIONAR AQUI -->
+    <style>
+        /* Estilos do Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal {
+            position: fixed;
+            padding: 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff5f8;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .details-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff5f8;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 55vw;          /* Largura quase total da viewport */
+            max-width: 1500px;    /* Bem largo, estilo editorial */
+            height: 500px;        /* Altura mais baixa */
+            overflow-y: auto;
+            z-index: 1001;
+            border-radius: 20px;
+        }
+
+
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #F8BBD0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .details-modal-header {
+            padding: 10px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        #detailsModalBody {
+            margin-bottom: 3px;
+            display: flex;
+            flex-direction: row;
+            height: 80%;
+            box-sizing: border-box;
+        }
+        
+
+        #detailsModalBody .product-image img {
+            border-radius: 20px;
+            padding: 20px 30px;
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: fill;
+            height: auto;
+            width: auto;
+       
+        }
+
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            color: #d6147e;
+        }
+
+        .modal-body img {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            margin: auto;
+            border-radius: 15px;
+            width: 80%;
+            height: auto;
+        }
+
+        .delete-form    {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 999;
+        }
+        
+        .deleteItem-button {
+            background-color: #f76c6c;
+            border: none;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deleteItem-button:hover {
+            background-color: #ff4f81;
+        }
+
+        .deleteItem-button img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+
+        /* Seleção de Tipo */
+        .item-type-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .type-card {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .type-card:hover {
+            border-color: #C2185B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 0, 47, 0.15);
+        }
+
+        .type-card.selected {
+            border-color: rgba(255, 0, 47, 0.15);
+            background: #ffb9df;
+            color: #ef6d9f;
+        }
+
+        .type-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .type-name {
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Formulários */
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255, 0, 47, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-primary {
+            background: #d6147e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #C2185B;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Indicador de etapas */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            color: #999;
+        }
+
+        .step.active {
+            color: #d6147e;
+            font-weight: 600;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .step.active .step-number {
+            background: #d6147e;
+            color: white;
+        }
+
+        .step-separator {
+            width: 40px;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 0 15px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        @@media (max-width: 768px) {
+            .modal {
+                width: 95%;
+                margin: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .item-type-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NovaModaBrecho</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<header class="main-header">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="/images/logo.png" alt="Nova Moda">
+        </a>
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-area="" asp-controller="Clothes" asp-action="Index">Roupas</a></li>
+            <li><a asp-area="" asp-controller="Shoes" asp-action="Index">Calçados</a></li>
+            <li><a asp-area="" asp-controller="Accessories" asp-action="Index">Acessórios</a></li>
+        </ul>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2025 - NovaModaBrecho - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<main role="main" class="pb-3">
+    @RenderBody()
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="/images/horizontal.png" alt="Nova Moda">
+        </div>
+        <p class="copyright">Grupo Snorlax &copy; 2025. Todos os Direitos Reservados.</p>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><img src="~/images/icons/facebook-icon.png" alt="Facebook"></a>
+            <a href="#" class="social-icon"><img src="~/images/icons/instagram-icon.png" alt="Instagram"></a>
+            <a href="#" class="social-icon"><img src="~/images/icons/linkedin-icon.png" alt="LinkedIn"></a>
+        </div>
     </div>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+
+<button class="add-button">+</button>
+
+<!-- MODAL HTML - ADICIONAR AQUI -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Adicionar Novo Item</h2>
+            <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- Indicador de etapas -->
+            <div class="step-indicator">
+                <div class="step active" id="step1">
+                    <span class="step-number">1</span>
+                    <span>Tipo</span>
+                </div>
+                <div class="step-separator"></div>
+                <div class="step" id="step2">
+                    <span class="step-number">2</span>
+                    <span>Detalhes</span>
+                </div>
+            </div>
+
+            <!-- Seleção de Tipo -->
+            <div id="typeSelection" class="type-selection-container">
+                <h3>Selecione o tipo de item:</h3>
+                <div class="item-type-selection">
+                    <div class="type-card" data-type="cloth">
+                        <span class="type-icon">👕</span>
+                        <p class="type-name">Roupa</p>
+                    </div>
+                    <div class="type-card" data-type="shoe">
+                        <span class="type-icon">👟</span>
+                        <p class="type-name">Calçado</p>
+                    </div>
+                    <div class="type-card" data-type="accessory">
+                        <span class="type-icon">👜</span>
+                        <p class="type-name">Acessório</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário para Roupas -->
+            <div id="clothForm" class="form-container">
+                <h3>Cadastrar Roupa</h3>
+                <form id="clothFormData">  
+                    @Html.AntiForgeryToken()
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothName">Nome <span class="required">*</span></label>
+                            <input type="text" id="clothName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="clothBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clothDescription">Descrição<span class="required">*</span></label>
+                        <textarea id="clothDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clothUrl">URL da Imagem <span class="required">*</span></label>
+                        <input type="url" id="clothUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="clothOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="clothQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothColor">Cor <span class="required">*</span></label>
+                            <select id="clothColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothCondition">Condição <span class="required">*</span></label>
+                            <select id="clothCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothSize">Tamanho <span class="required">*</span></label>
+                            <select id="clothSize" name="ClothesSize" required>
+                                <option value="">Selecione o tamanho</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothCategory">Categoria <span class="required">*</span></label>
+                            <select id="clothCategory" name="ClothesCategory" required>
+                                <option value="">Selecione a categoria</option>
+                                <option value="Dress">Vestido</option>
+                                <option value="Shirt">Camisa</option>
+                                <option value="Pants">Calça</option>
+                                <option value="Skirt">Saia</option>
+                                <option value="Jacket">Jaqueta</option>
+                                <option value="Coat">Casaco</option>
+                                <option value="Sweater">Suéter</option>
+                                <option value="Shorts">Shorts</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clothPrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="clothPrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clothReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="clothReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="shoeForm" class="form-container">
+                <h3>Cadastrar Calçado</h3>
+                <form id="shoeFormData">
+                    @Html.AntiForgeryToken()
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeName">Nome <span class="required">*</span></label>
+                            <input type="text" id="shoeName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="shoeBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shoeDescription">Descrição<span class="required">*</span></label>
+                        <textarea id="shoeDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shoeUrl">URL da Imagem<span class="required">*</span></label>
+                        <input type="url" id="shoeUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="shoeOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="shoeQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeColor">Cor <span class="required">*</span></label>
+                            <select id="shoeColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeCondition">Condição <span class="required">*</span></label>
+                            <select id="shoeCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoeSize">Tamanho <span class="required">*</span></label>
+                            <input type="number" id="shoeSize" name="ShoeSize" min="20" max="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeCategory">Categoria <span class="required">*</span></label>
+                            <select id="shoeCategory" name="ShoesCategory" required>
+                                <option value="">Selecione a categoria</option>
+                                <option value="Sneakers">Tênis</option>
+                                <option value="Boots">Botas</option>
+                                <option value="Sandals">Sandálias</option>
+                                <option value="Heels">Salto Alto</option>
+                                <option value="Flats">Sapatilhas</option>
+                                <option value="Sports">Esportivo</option>
+                                <option value="Casual">Casual</option>
+                                <option value="Formal">Formal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shoePrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="shoePrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shoeReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="shoeReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="accessoryForm" class="form-container">
+                <h3>Cadastrar Acessório</h3>
+                <form id="accessoryFormData">
+                    @Html.AntiForgeryToken()
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryName">Nome <span class="required">*</span></label>
+                            <input type="text" id="accessoryName" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryBrand">Marca <span class="required">*</span></label>
+                            <input type="text" id="accessoryBrand" name="Brand" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accessoryDescription">Descrição<span class="required">*</span></label>
+                        <textarea id="accessoryDescription" name="Description" placeholder="Descreva o item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accessoryUrl">URL da Imagem<span class="required">*</span></label>
+                        <input type="url" id="accessoryUrl" name="Url" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryOrigin">Origem <span class="required">*</span></label>
+                            <input type="text" id="accessoryOrigin" name="Origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryQuantity">Quantidade <span class="required">*</span></label>
+                            <input type="number" id="accessoryQuantity" name="Quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryColor">Cor <span class="required">*</span></label>
+                            <select id="accessoryColor" name="Color" required>
+                                <option value="">Selecione a cor</option>
+                                <option value="Red">Vermelho</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Green">Verde</option>
+                                <option value="Black">Preto</option>
+                                <option value="White">Branco</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Pink">Rosa</option>
+                                <option value="Other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryCondition">Condição <span class="required">*</span></label>
+                            <select id="accessoryCondition" name="Condition" required>
+                                <option value="">Selecione a condição</option>
+                                <option value="New">Novo</option>
+                                <option value="Good">Semi</option>
+                                <option value="Fair">Usado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessorySize">Tamanho <span class="required">*</span></label>
+                            <select id="accessorySize" name="AccessoriesSize" required>
+                                <option value="">Selecione o tamanho</option>
+                                <option value="Small">Pequeno</option>
+                                <option value="Medium">Médio</option>
+                                <option value="Large">Grande</option>
+                                <option value="Adjustable">Ajustável</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryType">Tipo <span class="required">*</span></label>
+                            <select id="accessoryType" name="AccessoriesType" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="Necklace">Colar</option>
+                                <option value="Bracelet">Pulseira</option>
+                                <option value="Ring">Anel</option>
+                                <option value="Earrings">Brincos</option>
+                                <option value="Hat">Chapéu</option>
+                                <option value="Bag">Bolsa</option>
+                                <option value="Scarf">Lenço</option>
+                                <option value="Belt">Cinto</option>
+                                <option value="Sunglasses">Óculos de Sol</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessoryPrice">Preço Original <span class="required">*</span></label>
+                            <input type="number" id="accessoryPrice" name="OriginalPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accessoryReceiveDate">Data de Recebimento <span class="required">*</span></label>
+                            <input type="date" id="accessoryReceiveDate" name="ReceiveDate" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="backBtn" style="display: none;">Voltar</button>
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="nextBtn" disabled>Continuar</button>
+                <button type="button" class="btn btn-primary" id="saveBtn" style="display: none;">Salvar Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="detailsModalOverlay">
+    <div class="details-modal" id="detailsModal">
+        <div class="details-modal-header">
+            <button class="close-btn" id="closeDetailsModal">&times;</button>
+        </div>
+        <div class="modal-body" id="detailsModalBody">
+        </div>
+    </div>
+</div>
+
 </body>
-</html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<script>
+    class ItemCreationModal {
+        constructor() {
+            this.currentStep = 1;
+            this.selectedType = null;
+            this.modal = document.getElementById('modalOverlay');
+            this.init();
+        }
+
+        init() {
+            document.querySelector('.add-button').addEventListener('click', () => this.openModal());
+            document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
+            document.getElementById('cancelBtn').addEventListener('click', () => this.closeModal());
+            document.getElementById('nextBtn').addEventListener('click', () => this.goToStep2());
+            document.getElementById('backBtn').addEventListener('click', () => this.goToStep1());
+            document.getElementById('saveBtn').addEventListener('click', () => this.saveItem());
+
+            this.modal.addEventListener('click', (e) => {
+                if (e.target === this.modal) {
+                    this.closeModal();
+                }
+            });
+
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.addEventListener('click', () => this.selectType(card.dataset.type));
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.value = today;
+            });
+        }
+
+        openModal() {
+            this.modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            this.resetModal();
+        }
+
+        closeModal() {
+            this.modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            this.resetModal();
+        }
+
+        resetModal() {
+            this.currentStep = 1;
+            this.selectedType = null;
+            this.updateStepIndicator();
+            this.showStep1();
+            this.clearForms();
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        selectType(type) {
+            this.selectedType = type;
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        goToStep1() {
+            this.currentStep = 1;
+            this.updateStepIndicator();
+            this.showStep1();
+        }
+
+        goToStep2() {
+            if (!this.selectedType) return;
+
+            this.currentStep = 2;
+            this.updateStepIndicator();
+            this.showStep2();
+        }
+
+        showStep1() {
+            document.getElementById('typeSelection').style.display = 'block';
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            document.getElementById('backBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('nextBtn').disabled = !this.selectedType;
+        }
+
+        showStep2() {
+            document.getElementById('typeSelection').style.display = 'none';
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            // Show the appropriate form
+            const formId = `${this.selectedType}Form`;
+            document.getElementById(formId).style.display = 'block';
+
+            document.getElementById('backBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        }
+
+        updateStepIndicator() {
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+
+            if (this.currentStep === 1) {
+                step1.classList.add('active');
+                step2.classList.remove('active');
+            } else {
+                step1.classList.remove('active');
+                step2.classList.add('active');
+            }
+        }
+
+        clearForms() {
+            document.querySelectorAll('form').forEach(form => {
+                form.reset();
+                const today = new Date().toISOString().split('T')[0];
+                form.querySelectorAll('input[type="date"]').forEach(input => {
+                    input.value = today;
+                });
+            });
+        }
+
+        async saveItem() {
+            const formData = this.getFormData();
+            if (!formData) return;
+
+            try {
+                document.getElementById('saveBtn').disabled = true;
+                document.getElementById('saveBtn').textContent = 'Salvando...';
+
+                let url;
+                switch (this.selectedType) {
+                    case 'cloth':
+                        url = '/Clothes/Create';
+                        break;
+                    case 'shoe':
+                        url = '/Shoes/Create';
+                        break;
+                    case 'accessory':
+                        url = '/Accessories/Create';
+                        break;
+                    default:
+                        throw new Error('Tipo de item inválido');
+                }
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('Item criado com sucesso!');
+                    this.closeModal();
+                    window.location.href = '/'; // Redireciona para a home (raiz)
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(`Erro ao salvar: ${response.status} - ${errorText}`);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar item:', error);
+                alert('Erro ao salvar o item. Tente novamente.');
+            } finally {
+                document.getElementById('saveBtn').disabled = false;
+                document.getElementById('saveBtn').textContent = 'Salvar Item';
+            }
+        }
+
+        getFormData() {
+            const formId = `${this.selectedType}FormData`;
+            const form = document.getElementById(formId);
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return null;
+            }
+
+            return new FormData(form);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        new ItemCreationModal();
+    });
+</script>
+
+<script>
+    function openModal(id) {
+        fetch(`/Home/Details/${id}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro ao carregar detalhes');
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('detailsModalBody').innerHTML = html;
+            document.getElementById('detailsModalOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Erro ao carregar detalhes do item.");
+        });
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('detailsModalOverlay').style.display = 'none';
+        document.getElementById('detailsModalBody').innerHTML = '';
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('closeDetailsModal').addEventListener('click', closeDetailsModal);
+        document.getElementById('detailsModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeDetailsModal();
+        });
+    });
+</script>

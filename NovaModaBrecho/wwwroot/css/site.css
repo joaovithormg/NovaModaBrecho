@@ -1,31 +1,292 @@
-html {
-  font-size: 14px;
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fce4ec;
+
+  background-image: url('/images/pattern.png');
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 50px 50px;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
+main {
+  flex: 1; /* Garante que o conteúdo principal ocupe o espaço restante */
+}
+
+/* --- Cabeçalho (Header) --- */
+.main-header {
+  background-color: #FFEBEE; /* Rosa mais claro para o cabeçalho */
+  padding: 15px 0;
+  text-align: center;
+  
+  border-bottom: 1px solid #F8BBD0; /* Borda inferior sutil */
+}
+
+.main-header .logo img {
+  max-height: 60px; /* Ajuste o tamanho do logo */
+  display: block; /* Remove espaço extra abaixo da imagem */
+  margin: 0 auto 10px auto; /* Centraliza e adiciona margem inferior */
+}
+
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Espaçamento entre os links */
+}
+
+.main-nav ul li a {
+  text-decoration: none;
+  font-family: 'Cherry Bomb One', serif;
+  color: #ef6d9f;
+  font-size: 1.5em;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+  color: #C2185B; /* Um pouco mais escuro no hover */
+}
+
+/* --- Grid de Produtos --- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 4 colunas como no exemplo, ajustável */
+  gap: 20px; /* Espaçamento entre os cartões */
+  padding: 20px;
+  max-width: 1200px; /* Largura máxima do conteúdo */
+  margin: 20px auto; /* Centralizar a grade */
+}
+
+/* --- Cartão de Produto (Product Card) --- */
+.product-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Sombra mais suave */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); /* Efeito sutil ao passar o mouse */
+}
+
+.product-card img {
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  height: auto; /* Altura fixa para as imagens */
+  max-height: 300px;
+  object-fit: cover; /* Garante que a imagem preenche o espaço sem distorcer */
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #f0f0f0;
+}
+
+.product-name {
+  font-size: 1.15em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.product-status {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  display: inline-block; /* Para centralizar se necessário */
+}
+
+.product-status.novo {
+  background-color: #4CAF50; /* Verde */
+}
+
+.product-status.usado {
+  background-color: #F44336; /* Vermelho */
+}
+
+.product-status.semi {
+  background-color: #FFC107; /* Amarelo */
+  color: #333; /* Texto escuro para contraste */
+}
+
+.prices {
+  margin-top: 5px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.original-price {
+  color: #888;
+  font-size: 0.85em;
+}
+
+.sale-price {
+  font-size: 1.4em; /* Preço de venda maior */
+  font-weight: bold;
+  color: #333;
+}
+
+/* --- Rodapé (Footer) --- */
+.main-footer {
+  background-color: #FFEBEE; /* Mesmo rosa claro do cabeçalho */
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #F8BBD0;
+  margin-top: 30px;
+}
+
+.footer-content {
+  font-family: 'Cherry Bomb One', serif;
+  color: #ef6d9f;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-logo img {
+  max-height: 40px;
+}
+
+.copyright {
+  font-size: 0.9em;
+  color: #ef6d9f;
+}
+
+.social-icons a {
+  margin: 0 8px;
+  display: inline-block;
+}
+
+.social-icons img {
+  width: 28px; /* Tamanho dos ícones sociais */
+  height: 28px;
+  transition: transform 0.2s ease;
+}
+
+.social-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* --- Botão Flutuante (Floating Add Button) --- */
+.add-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #ef6d9f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 300; /* Mais leve para o '+' */
+}
+
+.add-button:hover {
+  background-color: #C2185B; /* Um pouco mais escuro no hover */
+  transform: translateY(-3px);
+}
+
+/* --- Responsividade (Media Queries) --- */
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* 3 colunas em telas menores */
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 2 colunas em tablets */
+    gap: 15px;
+    width: fit-content;
+  }
+
+  .main-nav ul {
+    flex-wrap: wrap; /* Quebra linha para os links de navegação */
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .main-nav ul li a {
+    font-size: 1em;
+    padding: 5px 8px;
+  }
+
+  .add-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8em;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .product-card img {
+    aspect-ratio: 3 / 4;
+    height: 150px; /* Ajusta a altura da imagem em telas menores */
+    width: 150px;
+  }
+
+  .product-name {
+    font-size: 1em;
+  }
+
+  .sale-price {
+    font-size: 1.2em;
+  }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+@media (max-width: 576px) {
+  .products-grid {
+    grid-template-columns: 1fr; /* 1 coluna em celulares */
+    padding: 10px;
+  }
 
-body {
-  margin-bottom: 60px;
-}
+  .main-header .logo img {
+    max-height: 45px;
+  }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
+  .main-nav ul {
+    flex-direction: column; /* Links da navegação em coluna */
+    gap: 8px;
+  }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+  .main-nav ul li a {
+    padding: 3px 5px;
+  }
+
+  .add-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.6em;
+    bottom: 15px;
+    right: 15px;
+  }
 }
