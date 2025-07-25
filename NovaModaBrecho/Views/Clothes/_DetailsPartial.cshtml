@@ -1,7 +1,10 @@
 @model NovaModaBrecho.Models.Cloth
 
-<div class="details-container">
-    <img src="@Model.Url" alt="@Model.Name" class="product-image" />
+<div class="product-image">
+    <img src="@Model.Url" alt="@Model.Name" />
+</div>
+
+<div class="product-info">
     <h2>@Model.Name</h2>
     <p><strong>Marca:</strong> @Model.Brand</p>
     <p><strong>Origem:</strong> @Model.Origin</p>
@@ -9,6 +12,7 @@
     <p><strong>Categoria:</strong> @Model.ClothesCategory</p>
     <p><strong>Cor:</strong> @Model.Color</p>
     <p><strong>Condição:</strong> @Model.Condition</p>
+    <p><strong>Quantidade:</strong> @Model.Quantity</p>
     <p><strong>Preço original:</strong> R$ @Model.OriginalPrice.ToString("F2")</p>
     <p><strong>Preço com desconto:</strong> R$ @Model.CalculateDiscountedSalePrice().ToString("F2")</p>
 </div>

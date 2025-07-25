@@ -39,9 +39,32 @@
             z-index: 1001;
         }
 
+        .details-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff5f8;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 55vw;          /* Largura quase total da viewport */
+            max-width: 1500px;    /* Bem largo, estilo editorial */
+            height: 500px;        /* Altura mais baixa */
+            overflow-y: auto;
+            z-index: 1001;
+            border-radius: 20px;
+        }
+
+
         .modal-header {
             padding: 20px 30px;
             border-bottom: 1px solid #F8BBD0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .details-modal-header {
+            padding: 10px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -53,6 +76,27 @@
             font-weight: 600;
             color: #333;
         }
+
+        #detailsModalBody {
+            margin-bottom: 3px;
+            display: flex;
+            flex-direction: row;
+            height: 80%;
+            box-sizing: border-box;
+        }
+        
+
+        #detailsModalBody .product-image img {
+            border-radius: 20px;
+            padding: 20px 30px;
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: fill;
+            height: auto;
+            width: auto;
+       
+        }
+
 
         .close-btn {
             background: none;
@@ -73,7 +117,6 @@
         }
 
         .modal-body {
-            padding: 30px;
             color: #d6147e;
         }
 
@@ -673,9 +716,8 @@
 </div>
 
 <div class="modal-overlay" id="detailsModalOverlay">
-    <div class="modal" id="detailsModal">
-        <div class="modal-header">
-            <h2 class="modal-title">Detalhes do Produto</h2>
+    <div class="details-modal" id="detailsModal">
+        <div class="details-modal-header">
             <button class="close-btn" id="closeDetailsModal">&times;</button>
         </div>
         <div class="modal-body" id="detailsModalBody">
